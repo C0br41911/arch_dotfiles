@@ -1,0 +1,739 @@
+{
+  "layer": "top",
+  "position": "top",
+    "modules-left": ["hyprland/workspaces", "group/music"/*, "wlr/taskbar"*/],  /*"hyprland/submap", "group/music*/
+    "modules-center": ["custom/weather", "clock" /*"custom/mako"*/],
+    "modules-right": [/*"group/speed", "temperature", "group/usage",*/"group/more", "group/kbv", "group/conns", "group/powerg"],
+    "hyprland/window": {
+      "max-length": 50
+
+    },
+
+"hyprland/workspaces": {
+  "format": "{icon}",
+  "format-window-separator": "",
+  "workspace-taskbar": {
+    "enable": false,
+    "update-active-window": true,
+    "format": "{icon}",
+    "icon-size": 17,
+    "on-click-window": "activate"
+  }
+},
+
+/*
+"hyprland/workspaces": {
+//    "format": "{icon}{windows}",
+    "format": "{icon}{windows}",
+    "format-window-separator": "",
+    "workspace-taskbar": {
+        "enable": true,
+        "update-active-window": true,
+        "format": "{icon}",
+        "icon-size": 17,
+        "on-click-window": "activate"
+    }
+},
+*/
+
+"wlr/taskbar": {
+  "format": "{icon}",
+  "icon-size": 14,
+  "icon-theme": "Numix-Circle",
+  "tooltip-format": "{title}",
+  "on-click": "activate",
+  "on-click-middle": "close",
+  "ignore-list": [
+    "Alacritty"
+  ],
+  "app_ids-mapping": {
+    "firefoxdeveloperedition": "firefox-developer-edition"
+  },
+  "rewrite": {
+    "Firefox Web Browser": "Firefox",
+    "Foot Server": "Terminal"
+  }
+},
+
+/**********************************************************************************************************************************************/
+
+
+"power-profiles-daemon": {
+  "format": "{icon}",
+  "tooltip-format": "Profile: {profile}",
+  "tooltip": true,
+  "format-icons": {
+    "power-saver": "󰌪",
+    "balanced": "󰗑",
+    "performance": "󰓅",
+    "default": "󰗑"
+  }
+},
+
+
+"group/more": {
+  "orientation": "horizontal",
+  "drawer": {
+    "transition-duration": 500,
+    "transition-left-to-right": true,
+    "children-class": "more-drawer",
+    "click-to-reveal": true
+  },
+  "modules": [
+    "custom/moreicon",
+    "group/speed",
+    "group/usage",
+    "temperature"
+  ]
+},
+
+//⚫
+//⧓
+//⦁
+//⟷
+//⬌
+"custom/moreicon": {
+  "format": "⬌",
+  "tooltip": false
+},
+
+/**************** USAGE ******************/
+"group/usage": {
+  "orientation": "horizontal",
+  "modules": [
+    "cpu",
+    "memory"
+  ]
+},
+"cpu": {
+  "interval": 1,
+  "format": " {usage:2}% ",
+  "max-length": 10, 
+  "on-click": "kitty -e btop",
+  "min-width": 1
+},
+"memory": {
+  "interval": 1,
+  "format": " {:2}%",
+  "max-length": 10,
+  "on-click": "kitty -e htop"
+},
+/************** END USAGE  ****************/
+"temperature": {
+  // "thermal-zone": 2,
+  // "hwmon-path": ["/sys/class/hwmon/hwmon1/temp1_input", "/sys/class/thermal/thermal_zone0/temp"],
+  // "critical-threshold": 80,
+  // "format-critical": "{temperatureC}°C ",
+  "format": " {temperatureC:2}°C",
+  "format-critical": "<span foreground='#e06c75'></span> {temperatureC:2}°C",
+  "critical-threshold": 75,
+  "interval": 1,
+  "on-click": "kitty -e watch -n 1 sensors -A",
+  "tooltip": false
+},
+/*********************** SPEED *********************************/
+"group/speed": {
+  "orientation": "horizontal",
+  "modules": ["network#down", "network#up"],
+//	"on-click": "kitty -e btop -p 3",
+},
+"network#down": {
+  "interface": "wlan0",
+  "interval": 1,
+  "format": " {bandwidthDownBytes:>1}",
+  "min-length": 12,
+  "max-length": 12,
+  "on-click": "kitty -e btop -p 3",
+//  "tooltip": false
+},
+"network#up": {
+  "interface": "wlan0",
+  "interval": 1,
+  "format": " {bandwidthUpBytes:>1}",
+  "min-length": 12,
+  "max-length": 12,
+  "on-click": "kitty -e btop -p 3",
+//  "tooltip": false 
+},
+/************************* END SPEED ***************************/
+
+"custom/mako": {
+  "exec": "~/.config/waybar/scripts/mako.sh",
+  "return-type": "json",
+  "interval": 2,
+  "signal": 8,
+  "format": "{icon} {text}",
+  "format-icons": {
+    "none": "󰂚",
+    "notification": "󰂞",
+    "dnd": "󰂛"
+  },
+  "on-click": "makoctl restore; pkill -RTMIN+8 waybar",
+  "on-click-right": "makoctl dismiss -a; pkill -RTMIN+8 waybar",
+  "on-click-middle": "makoctl mode -t do-not-disturb; pkill -RTMIN+8 waybar",
+  "escape": true
+},
+
+"group/batteryd": {
+  "orientation": "horizontal",
+  "drawer": {
+    "transition-duration": 500,
+    "transition-left-to-right": false,
+    "click-to-reveal": false
+  },
+  "modules": [
+    "battery",
+    "battery#d"
+  ]
+},
+
+
+"battery": {
+  "interval": 1,
+  "tooltip": false,
+  "states": {
+    "critical": 25
+  },
+  "format": "{icon} {capacity}%",
+  "format-discharging-critical": "<span foreground='#e06c75'>{icon}</span> {capacity}%",
+  "format-icons": {
+    "default": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+    "charging": ["󰢟", "󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"]
+  }
+},
+
+
+"battery#d": {
+  "interval": 1,
+  "format-charging": "charging {time} ",
+  "format-discharging": "discharging {time} ",
+  "format-full": "full ",
+  "format-plugged": "plugged ",
+  "format-time": "{H}h {M}m",
+  "tooltip": false
+},
+
+
+"group/conns":{
+  "orientation": "horizontal",
+  "modules": [
+    "group/bluetoothd",
+    "group/wifid",
+    "group/volume",
+    "group/batteryd"
+  ]
+},
+
+/****************************** BLUTOOTH **************************************/
+
+"group/bluetoothd": {
+  "orientation": "horizontal",
+  "drawer": {
+    "transition-duration": 500,
+    "transition-left-to-right": false,
+    "click-to-reveal": false
+  },
+  "modules": [
+    "bluetooth",
+    "bluetooth#d"
+  ]
+},
+
+"bluetooth": {
+  "format": " ",
+  "format-on": " ",
+  "format-off": " ",
+  "format-disabled": " ",
+  "format-connected": " ",
+  "tooltip-format": "{controller_alias}: {status}",
+  "tooltip-format-connected": "{device_enumerate}",
+  "tooltip-format-enumerate-connected": "{device_alias}",
+  "on-click": "kitty -e bluetui",
+  "tooltip": false
+},
+"bluetooth#d": {
+  "format": "{status} {num_connections} connected ",
+  "tooltip": false
+},
+
+/*
+"bluetoothd": {
+  "format": " ",
+  "format-on": " ",
+  "format-off": " ",
+  "format-disabled": " ",
+  "format-connected": " ",
+  "tooltip-format": "{controller_alias}: {status}",
+  "tooltip-format-connected": "{device_enumerate}",
+  "tooltip-format-enumerate-connected": "{device_alias}",
+  "on-click": "kitty -e bluetui",
+  "drawer": {
+    "transition-duration": 500,
+    "transition-left-to-right": false,
+    "children-class": "bt-drawer",
+    "click-to-reveal": false
+  },
+  "modules":[
+  "bluetooth",
+  "bluetooth#d"
+  ]
+
+},
+
+"bluetooth": {
+  "format": "",
+  "format-on": "",
+  "format-off": "󰂲",
+  "format-disabled": "󰂲",
+  "format-connected": "",
+  "tooltip-format": "{controller_alias}",
+  "tooltip-format-connected": "{device_enumerate}",
+  "tooltip-format-enumerate-connected": "{device_alias}"
+}, 
+
+
+     "bluetooth#d": {
+  "interval": 1,
+    "format": "{status} {num_connections} connected "
+    },
+*/
+/****************************** END BLUETOOTH ************************************/
+/*
+"tray": {
+    "icon-size": 16,
+    "spacing": 6,
+    "show-passive-items": true,
+    "reverse-direction": false,
+    "icons": {
+        "brave-origin": "brave",
+        "Brave-browser": "brave",
+        "kitty": "kitty"
+    }
+},
+*/
+/***************************** WIFI *******************************/
+
+"group/wifid": {
+  "orientation": "horizontal",
+  "drawer": {
+    "transition-duration": 500,
+    "transition-left-to-right": false,
+    "children-class": "wifi-drawer",
+    "click-to-reveal": false
+  },
+  "modules": [
+    "network",
+    "network#essid"
+  ]
+},
+
+
+
+"network": {
+  "interface": "wlan0",
+  "format": "",
+  "format-wifi": "",
+//	"format-wifi": " {essid} ({signalStrength}%)", */
+//	"format-wifi": "",*/
+"format-ethernet": "{ifname} ",
+"format-disconnected": "", //An empty format will hide the module.
+"format-disconnected": "",
+"tooltip-format": "{ifname}",
+"tooltip-format-wifi": "{essid} ({signalStrength}%) ",
+"tooltip-format-ethernet": "{ifname} ",
+"tooltip-format-disconnected": "Disconnected",
+"tooltip": false,
+"max-length": 50,
+"on-click": "kitty -e impala"
+},
+
+"network#essid": {
+  "interface": "wlan0",
+  "interval": 1,
+  "format-wifi": "{essid} ({signalStrength}%) ",
+  "format-linked": "linked ",
+  "format-disconnected": "disconnected ",
+  "format-disabled": "disabled ",
+  "tooltip": false
+},
+
+/*************************** END WIFI ***********************************/
+/*
+     "network#speed": {
+   "interface": "wlan0",
+    "interval": 1,
+    "format-wifi": " {bandwidthDownBytes:3}  {bandwidthUpBytes:3}",
+//  	"format-wifi": " 777.0 kB/s  777.0 Mb/s",
+    "format-ethernet": " {bandwidthDownBytes}   {bandwidthUpBytes}",
+  "min-length": 25
+//	"max-length": 25, 
+//	"min-length": 25
+    },
+*/
+
+/**************************** TOGGLE *********************************/
+/*
+"custom/toggle": {
+    "format": "⚙",
+    "on-click": "~/.config/waybar/scripts/toggle.sh toggle"
+},
+*/
+/************************** END TOGGLE *******************************/
+
+
+
+"group/connections": {
+  "orientation": "horizontal",
+  "modules": [
+    "bluetooth",
+    "network"
+  ]
+},
+
+
+
+
+
+"group/kbv":{
+  "orientation": "horizontal",
+  "modules": [
+    "power-profiles-daemon",
+    "custom/kbd-backlight",	
+    "backlight"
+  ]
+},
+
+/*************************** BRIGHTNESS ******************************/
+
+"group/brightness": {
+  "orientation": "horizontal",
+  "drawer": {
+    "transition-duration": 500,
+    "transition-left-to-right": false,
+    "children-class": "brightness-pct",
+    "click-to-reveal": false
+  },
+  "modules": [
+    "backlight",
+    "backlight#percent"
+  ]
+},
+
+
+
+"backlight": {
+  "device": "intel_backlight",
+  "format": "{icon}",
+  "format-icons": ["󰃞", "󰃟", "󰃝", "󰃠"],
+  "tooltip": false,
+  "states": {
+    "b10": 10,
+    "b20": 20,
+    "b30": 30,
+    "b40": 40,
+    "b50": 50,
+    "b60": 60,
+    "b70": 70,
+    "b80": 80,
+    "b90": 90,
+    "b100": 100
+  },
+  "on-click": "brightnessctl set +10%",
+  "on-click-right": "brightnessctl set 10%-"
+},
+
+
+
+/*
+"backlight": {
+  "device": "intel_backlight",
+  "format": "{icon}",
+  "format-icons": ["󰃞", "󰃟", "󰃝", "󰃠"],
+  "tooltip": false,
+//  "scroll-step": 5,
+//  "min-brightness": 5,
+  "on-click": "brightnessctl set +10%",
+  "on-click-right": "brightnessctl set 10-%"
+},
+*/
+
+
+
+"backlight#percent": {
+  "device": "intel_backlight",
+  "format": "{percent}% ",
+  "tooltip": false
+},
+
+/************************* END BRIGHTNESS *****************************/
+
+/*************************** VOLUME ******************************/
+
+"group/volume": {
+  "orientation": "horizontal",
+  "drawer": {
+    "transition-duration": 500,
+    "transition-left-to-right": false,
+    "children-class": "volume-pct",
+    "click-to-reveal": false
+  },
+  "modules": [
+    "wireplumber",
+    "wireplumber#percent"
+  ]
+},
+
+"wireplumber": {
+  "format": "{icon}",
+//  "format-muted": "󰕿",
+//  "format-muted": "󰝟",
+"format-icons": {
+  "default": ["󰕾"]
+//    "default": ["󰕿", "󰖀", "󰕾"]
+},
+"tooltip": false,
+"on-click": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+",
+"on-click-right": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
+"scroll-step": 5
+},
+
+"wireplumber#percent": {
+  "format": "{volume}% ",
+  "format-muted": "muted",
+  "tooltip": false
+},
+
+/************************* END VOLUME *****************************/
+
+/************************** KEYBOARD ******************************/
+
+
+"custom/kbd-backlight": {
+  "exec": "brightnessctl -m -d 'asus::kbd_backlight' | awk -F, '{gsub(/%/,\"\",$4); p=$4+0; c=\"off\"; if(p>=100)c=\"high\"; else if(p>=66)c=\"mid\"; else if(p>=33)c=\"low\"; printf \"{\\\"text\\\":\\\"%d\\\",\\\"percentage\\\":%d,\\\"class\\\":\\\"%s\\\"}\\n\", p,p,c}'",
+  "return-type": "json",
+  "format": "󰌌 ",
+  "tooltip-format": "Keyboard backlight {}%",
+  "interval": 2,
+  "exec-on-event": true,
+  "on-click": "brightnessctl -d 'asus::kbd_backlight' set +10%",
+  "on-click-right": "brightnessctl -d 'asus::kbd_backlight' set 10%-",
+  "tooltip": false
+},
+
+/************************ END KEYBOARD ****************************/
+
+/*************************** POWER ********************************/
+
+"group/powerg": {
+  "orientation": "horizontal",
+  "drawer": {
+    "transition-duration": 500,
+    "children-class": "not-power",
+    "transition-left-to-right": false
+  },
+  "modules": [
+    "custom/power",
+    "custom/reboot",
+    "custom/shutdown"
+  ]
+},
+
+"custom/power": {
+  "format": "⏼",
+  "tooltip": false
+},
+
+"custom/reboot": {
+  "format": "",
+  "tooltip-format": "reboot", 
+  "on-click": "reboot"
+},
+
+"custom/shutdown": {
+  "format": "⏻",
+  "tooltip-format": "shutdown", 
+  "on-click": "shutdown now"
+},
+
+/************************ END POWER ****************************/
+
+
+
+/*
+"backlight": {
+  "device": "amdgpu_bl2",
+  "format": "{icon}",
+  "scroll-step": 5,
+  "min-brightness": 5,
+  "format-icons": ["󰃞", "󰃟", "󰃝", "󰃠"],
+  "tooltip": false
+},
+
+"backlight/slider": {
+  "device": "amdgpu_bl2",
+  "min": 5,
+  "max": 100,
+  "orientation": "horizontal",
+  "interval": 1000
+},
+
+
+"backlight": {
+  "device": "amdgpu_b12",
+  "format": "{icon} ",	
+  "format-icons": ["🟏", "🟏"]
+
+  },
+
+
+"backlight/slider": {
+    "min": 0,
+    "max": 100,
+    "orientation": "horizontal",
+    "device": "intel_backlight",
+    "interval": 1,
+    "scroll-step": 100
+},   
+
+
+
+
+/*
+"custom/kbd-backlight": {
+  "exec": "brightnessctl -m -d 'asus::kbd_backlight' | awk -F, '{gsub(/%/,\"\",$4); print $4}'",
+  "format": "󰌌",
+  "tooltip-format": "Keyboard backlight {0}%",
+  "interval": 2,
+  "exec-on-event": true,
+  "on-click": "brightnessctl -d 'asus::kbd_backlight' set +10%",
+  "on-click-right": "brightnessctl -d 'asus::kbd_backlight' set 10%-"
+},*/
+
+
+"custom/led": {
+  "device": "intel_backlight",
+  "format": "{icon} {percent}%",
+  "format-icons": ["a", "b"],
+  "on-click": "brightnessctl --device='asus::kbd_backlight' set +10%",
+  "on-click-right": "brightnessctl --device='asus::kbd_backlight' set 10%-"
+},
+
+
+
+/*
+"custom/power": {
+    "format": "",
+    "tooltip": false,
+    "menu": "on-click",
+    "menu-file": "~/.config/waybar/power_menu.xml",
+    "menu-actions": {
+        "shutdown": "systemctl poweroff",
+        "reboot": "systemctl reboot"
+    }
+},   
+*/
+
+
+
+
+
+
+
+
+
+/*
+"group/clickers": {
+  "orientation": "horizontal",
+  "modules": [
+    "backlight",
+    "wireplumber"
+  ]
+},
+*/
+
+/*
+"custom/power": {
+    "format": "",
+    "on-click": "kitty -e power"
+  },   
+*/
+
+/*"backlight/slider": {
+    "min": 0,
+    "max": 100,
+    "orientation": "horizontal",
+    "device": "intel_backlight"
+  },*/
+
+  "clock": {
+    "format": "{:%H:%M:%S}",
+    "format-alt": "{:%a %d %b %Y %H:%M:%S}",
+    "tooltip-format": "<tt>{calendar}</tt>",
+    "interval": 1,
+//  "align": 1,
+//  "fixed-center": true,
+"calendar": {
+  "mode": "month",
+  "mode-mon-col": 3,
+  "on-scroll": 1,
+  "format": {
+    "months":   "<span color='#e5e5e5'><b>{}</b></span>",
+    "days":     "<span color='#eeeeee'>{}</span>",
+    "weeks":    "<span color='#6b7280'>W{}</span>",
+//      "weekdays": "<span color='#9ca3af'><b>{}</b></span>",
+"weekdays": "<span color='#da9c34'><b>{}</b></span>",
+"today":    "<span color='#ffffff'><b><u>{}</u></b></span>"
+  }
+},
+"actions": {
+  "on-click-right": "mode",
+  "on-scroll-up": "shift_up",
+  "on-scroll-down": "shift_down"
+}
+  },
+
+/*    
+    "clock": {
+
+  "format": "{:%H:%M:%S}",   
+        "format-alt": "{:%a, %d. %b  %H:%M:%S}",
+  "interval": 1
+    },
+*/
+
+"group/music": {
+  "orientation": "horizontal",
+  "modules": ["custom/media"]
+},
+
+"custom/media": {
+  "exec": "~/.config/waybar/scripts/media-scroll.sh",
+  "format": "{}",
+    "escape": false,      /* ESCAPING */
+    "hide-empty-text": true,
+    "tooltip": false,
+    "on-click": "playerctl play-pause",
+    "on-click-right": "playerctl next",
+    "on-scroll-up": "playerctl next",
+    "on-scroll-down": "playerctl previous"
+},
+
+"custom/weather": {
+  "exec": "~/.config/waybar/scripts/weather.sh",
+  "return-type": "json",
+  "interval": 60,
+  "tooltip": true,
+  "format": "{}",
+  "escape": false
+}
+
+/*
+  "custom/weather": {
+   "exec": "~/.config/waybar/scripts/weather.sh",
+   "return-type": "json",
+   "interval": 60,
+   "tooltip": true,
+   "format": "{}"
+  }
+*/
+}
