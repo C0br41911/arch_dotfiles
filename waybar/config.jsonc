@@ -109,7 +109,7 @@
   "interval": 1,
   "format": " {usage:2}% ",
   "max-length": 10, 
-  "on-click": "kitty -e btop",
+  "on-click": "kitty -e btop -p 0",
   "min-width": 1
 },
 "memory": {
