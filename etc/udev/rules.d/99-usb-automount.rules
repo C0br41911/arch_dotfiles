@@ -1,0 +1,7 @@
+# Dynamic automount for inserted USB partition block devices
+KERNEL=="sd[a-z][0-9]", SUBSYSTEM=="block", ACTION=="add", ENV{ID_FS_USAGE}=="filesystem", RUN+="/usr/bin/systemd-mount --no-block --collect -o uid=1000,gid=1000,umask=000 /dev/%k /media/%k"
+
+# Clean unmount on drive removal
+#KERNEL=="sd[a-z][0-9]", SUBSYSTEM=="block", ACTION=="remove", RUN+="/usr/bin/systemd-mount --umount /dev/%k"
+
+KERNEL=="sd[a-z][0-9]", SUBSYSTEM=="block", ACTION=="remove", RUN+="/usr/bin/systemd-mount --umount /media/%k", RUN+="/usr/bin/rmdir /media/%k"
