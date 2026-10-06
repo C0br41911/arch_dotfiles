@@ -426,14 +426,60 @@ min-height: 6px;
 }
 
 #music {
-  padding: 0px;
+  padding: 10px;
+  background: @bg;
   margin: 4px 0px 0px 4px;
   /*	background-color: "transparent"; */
   min-width: 0px;
   min-height: 0px;
   min-height: 6px;
+  padding: 0px 6px 0px 5px;
 }
 
+/*#music*/
+
+#custom-music {
+    background-color: @bg;
+    color: #cdd6f4;
+    padding: 0px 8px 0px 8px;
+    margin: 4px 0px 0px 4px;
+    border-radius: 80px;
+    font-family: "JetBrainsMono Nerd Font", monospace;
+}
+
+#custom-music.playing {
+    color: #a6e3a1;
+}
+
+#custom-music.paused {
+    color: #f9e2af;
+}
+
+#custom-music.idle {
+    opacity: 0;
+    padding: 0;
+}
+
+
+
+
+
+/*
+#custom-media {
+  background: @bg;
+  color: #ffffff;
+  padding: 0 12px;
+  margin: 4px 0px 0px 4px;
+  border-radius: 600px;
+  min-height: 6px;
+  font-weight: 500;
+}
+*/
+
+
+
+
+/*
 #music #custom-media {
   background: @bg;
   border-radius: 700px;
@@ -442,7 +488,7 @@ min-height: 6px;
   font-weight: 500; 
   min-height: 6px;
 }
-
+*/
 
 /***************************************************/
 /* 

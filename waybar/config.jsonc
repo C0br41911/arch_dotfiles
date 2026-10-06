@@ -1,7 +1,7 @@
 {
   "layer": "top",
   "position": "top",
-    "modules-left": ["hyprland/workspaces", "group/music"/*, "wlr/taskbar"*/],  /*"hyprland/submap", "group/music*/
+    "modules-left": ["hyprland/workspaces", "custom/music"/*"group/music"*/ /*, "wlr/taskbar"*/],  /*"hyprland/submap", "group/music*/
     "modules-center": ["custom/weather", "clock" /*"custom/mako"*/],
     "modules-right": [/*"group/speed", "temperature", "group/usage",*/"group/more", "group/kbv", "group/conns", "group/powerg"],
     "hyprland/window": {
@@ -189,7 +189,6 @@
 
 
 "battery": {
-  "interval": 1,
   "tooltip": false,
   "states": {
     "critical": 25
@@ -202,12 +201,10 @@
   }
 },
 
-
 "battery#d": {
-  "interval": 1,
   "format-charging": "charging {time} ",
   "format-discharging": "discharging {time} ",
-  "format-full": "full ",
+//  "format-full": "full ",
   "format-plugged": "plugged ",
   "format-time": "{H}h {M}m",
   "tooltip": false
@@ -701,15 +698,68 @@
     },
 */
 
+/*
 "group/music": {
   "orientation": "horizontal",
   "modules": ["custom/media"]
 },
+*/
 
+"custom/music": {
+    "exec": "~/.config/waybar/scripts/waybar_music.py",
+    "return-type": "json",
+    "on-click": "playerctl play-pause",
+    "on-click-right": "playerctl next && pkill -USR1 -f waybar_music.py",
+    "format": "{}"
+},
+
+
+
+
+/*
+"custom/music": {
+    "format": "{}",
+    "return-type": "json",
+    "exec": "~/.config/waybar/scripts/waybar_music.py",
+    "on-click": "playerctl play-pause",
+    "on-click-right": "playerctl next",
+    "on-scroll-up": "playerctl position 5+",
+    "on-scroll-down": "playerctl position 5-"
+},
+*/
+
+/*
+"custom/media": {
+  "format": "{}",
+  "return-type": "json",
+  "exec": "python3 ~/.config/waybar/scripts/waybar_music.py",
+  "on-click": "playerctl play-pause",
+  "on-click-right": "playerctl next",
+  "on-scroll-up": "playerctl next",
+  "on-scroll-down": "playerctl previous"
+},
+*/
+
+/*
+"custom/media": {
+  "exec": "python3 -u ~/.config/waybar/scripts/media-scroll.sh",
+  "return-type": "json",
+  "format": "{text}",
+  "escape": false,
+  "hide-empty-text": true,
+  "tooltip": false,
+  "on-click": "playerctl play-pause",
+  "on-click-right": "playerctl next",
+  "on-scroll-up": "playerctl next",
+  "on-scroll-down": "playerctl previous"
+},
+*/
+
+/*
 "custom/media": {
   "exec": "~/.config/waybar/scripts/media-scroll.sh",
   "format": "{}",
-    "escape": false,      /* ESCAPING */
+    "escape": false,
     "hide-empty-text": true,
     "tooltip": false,
     "on-click": "playerctl play-pause",
@@ -717,6 +767,7 @@
     "on-scroll-up": "playerctl next",
     "on-scroll-down": "playerctl previous"
 },
+*/
 
 "custom/weather": {
   "exec": "~/.config/waybar/scripts/weather.sh",
